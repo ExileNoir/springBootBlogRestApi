@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 @Service
 public class PostService implements IPostService {
 
-    private IPostRepository postRepository;
-    private MapperPost mapperPost;
+    private final IPostRepository postRepository;
+    private final MapperPost mapperPost;
 
     @Autowired
     public PostService(IPostRepository repository, MapperPost mapperPost) {
@@ -44,6 +44,9 @@ public class PostService implements IPostService {
      */
     @Override
     public PostDto createPost(final PostDto postDto) {
+        if (postRepository.findById(postDto.getId()).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         final Post post = mapperPost.mapToPost(postDto);
         final Post newPost = postRepository.save(post);
         return mapperPost.mapToPostDto(newPost);
@@ -60,7 +63,7 @@ public class PostService implements IPostService {
     public List<PostDto> findAllPosts() {
         final List<Post> postDtos = postRepository.findAll();
         if (postDtos.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return postDtos
                 .stream()
@@ -74,7 +77,7 @@ public class PostService implements IPostService {
      * @param id of Object Long
      * @return PostDto
      * @see IPostService#findById(Long)
-     * @see PostController#findById(Long)
+     * @see PostController#findPostById(Long)
      */
     @Override
     public PostDto findById(final Long id) {
