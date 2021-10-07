@@ -2,11 +2,16 @@ package com.infernalwhaler.springbootblogrestapi.service;
 
 import com.infernalwhaler.springbootblogrestapi.controller.PostController;
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
+import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
 import com.infernalwhaler.springbootblogrestapi.mapper.MapperPost;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,9 +49,10 @@ public class PostService implements IPostService {
      */
     @Override
     public PostDto createPost(final PostDto postDto) {
-        if (postRepository.findById(postDto.getId()).isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+        // todo should be on title not id
+//        if (postRepository.findById(postDto.getId()).isPresent()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
         final Post post = mapperPost.mapToPost(postDto);
         final Post newPost = postRepository.save(post);
         return mapperPost.mapToPostDto(newPost);
@@ -55,20 +61,37 @@ public class PostService implements IPostService {
     /**
      * Get all Blog Posts
      *
-     * @return List of PostDtos
-     * @see IPostService#findAllPosts()
-     * @see PostController#findAllPosts()
+     * @param pageNo   of Object Integer
+     * @param pageSize of Object Integer
+     * @param sortBy   of Object String
+     * @param sortDir  of Object String
+     * @return PostResponse Object
+     * @see IPostService#findAllPosts(Integer, Integer, String, String)
+     * @see PostController#findAllPosts(Integer, Integer, String, String)
      */
     @Override
-    public List<PostDto> findAllPosts() {
-        final List<Post> postDtos = postRepository.findAll();
-        if (postDtos.isEmpty()) {
-             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    public PostResponse findAllPosts(final Integer pageNo, final Integer pageSize, final String sortBy, final String sortDir) {
+        final Sort sort = sortDir.equalsIgnoreCase(Sort.DEFAULT_DIRECTION.name()) ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        final Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        final Page<Post> postPages = postRepository.findAll(pageable);
+        if (postPages.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return postDtos
+
+        final List<Post> posts = postPages.getContent();
+        if (posts.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        final List<PostDto> postDtos = posts
                 .stream()
                 .map(mapperPost::mapToPostDto)
                 .collect(Collectors.toList());
+
+        return new PostResponse(postDtos, postPages.getNumber(), postPages.getSize(), postPages.getTotalElements(), postPages.getTotalPages(), postPages.isLast());
     }
 
     /**

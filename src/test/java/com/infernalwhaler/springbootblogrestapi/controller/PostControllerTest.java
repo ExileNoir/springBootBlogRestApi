@@ -2,6 +2,8 @@ package com.infernalwhaler.springbootblogrestapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
+import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
+import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.service.IPostService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -49,7 +53,7 @@ class PostControllerTest {
     }
 
     @SneakyThrows
-    private String mapperToJson(final PostDto postDto) {
+    private <T> String mapperToJson(final T postDto) {
         final ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(postDto);
     }
@@ -86,13 +90,24 @@ class PostControllerTest {
     void findAllPosts() {
         final List<PostDto> postDtos = List.of(buildPostDto(), buildPostDto01());
 
-        when(postService.findAllPosts())
-                .thenReturn(postDtos);
+        final Post post = new Post(1L, "Title", "Description", "Content");
+        final Post post01 = new Post(1L, "Title01", "Description01", "Content01");
+        final List<Post> posts = List.of(post01, post);
+        final Page<Post> postPage = new PageImpl<>(posts);
+        final PostResponse postResponse =
+                new PostResponse(postDtos, postPage.getNumber(), postPage.getSize(), postPage.getTotalElements(), postPage.getSize(), postPage.isLast());
+
+        when(postService.findAllPosts(any(), any(),any(),any()))
+                .thenReturn(postResponse);
 
         mockMvc.perform(get(URL_TEMPLATE)
-                        .contentType(APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON)
+                        .content(mapperToJson(postResponse)))
                 .andExpect(status().isFound())
-                .andExpect(jsonPath("$.length()", is(2)))
+                .andExpect(jsonPath("$.content.length()", is(2)))
+                .andExpect(jsonPath("$.content[0].title", is("Title")))
+                .andExpect(jsonPath("$.totalPages", is(2)))
+                .andExpect(jsonPath("$.last", is(true)))
                 .andDo(print())
                 .andReturn()
                 .getResponse();

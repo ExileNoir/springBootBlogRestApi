@@ -1,6 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.service;
 
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
+import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
 import com.infernalwhaler.springbootblogrestapi.mapper.MapperPost;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
@@ -11,6 +12,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -67,24 +72,28 @@ class PostServiceTest {
 
     @Test
     void shouldFindAllPosts() {
-        final Post post = new Post(1L, "Title", "Description", "Content");
-        final Post post01 = new Post(1L, "Title01", "Description01", "Content01");
-        final List<Post> posts = List.of(post01, post);
+        final Post post = new Post(1L, "AA", "Description", "Content");
+        final Post post01 = new Post(2L, "Title01", "Description01", "Content01");
+        final List<Post> posts = List.of(post, post01);
+        final Pageable pageable = PageRequest.of(0, 5, Sort.by("content"));
 
-        when(repository.findAll()).thenReturn(posts);
+        when(repository.findAll(pageable))
+                .thenReturn(new PageImpl<>(posts));
 
-        final List<PostDto> postDtos = service.findAllPosts();
+        final PostResponse postResponse = service.findAllPosts(0, 5, "content","asc");
 
-        assertNotNull(postDtos);
-        assertEquals(2, postDtos.size());
+        assertNotNull(postResponse);
+        assertEquals("AA", postResponse.getContent().get(0).getTitle());
+        assertEquals(2, postResponse.getContent().size());
     }
 
     @Test
     void shouldNotFindAllPosts() {
-        when(repository.findAll())
+        final Pageable pageable = PageRequest.of(0, 5,Sort.by("title"));
+        when(repository.findAll(pageable))
                 .thenThrow(ResponseStatusException.class);
 
-        assertThrows(ResponseStatusException.class, () -> service.findAllPosts());
+        assertThrows(ResponseStatusException.class, () -> service.findAllPosts(0, 5, "title","asc"));
     }
 
     @Test

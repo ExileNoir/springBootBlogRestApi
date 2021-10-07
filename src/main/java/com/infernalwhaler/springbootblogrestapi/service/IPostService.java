@@ -1,8 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.service;
 
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
-
-import java.util.List;
+import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
 
 /**
  * IPost Service
@@ -25,9 +24,13 @@ public interface IPostService {
     /**
      * Find all Posts
      *
-     * @return List of PostDtos
+     * @param pageNo   of Object Integer
+     * @param pageSize of Object Integer
+     * @param sortBy   of Object String
+     * @param sortDir  of Object String
+     * @return PostResponse Object
      */
-    List<PostDto> findAllPosts();
+    PostResponse findAllPosts(final Integer pageNo, final Integer pageSize, final String sortBy, final String sortDir);
 
     /**
      * Find Post by ID

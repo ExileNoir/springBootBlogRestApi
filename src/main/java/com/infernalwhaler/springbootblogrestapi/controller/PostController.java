@@ -1,14 +1,13 @@
 package com.infernalwhaler.springbootblogrestapi.controller;
 
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
+import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.service.IPostService;
 import com.infernalwhaler.springbootblogrestapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Post Rest Controller
@@ -45,13 +44,21 @@ public class PostController {
     /**
      * Get all Blog Posts Rest Api
      *
-     * @return ResponseEntity of List PostDtos
-     * @see IPostService#findAllPosts()
-     * @see PostService#findAllPosts()
+     * @param pageNo   of Object Integer
+     * @param pageSize of Object Integer
+     * @param sortBy   of Object String
+     * @param sortDir  of Object String
+     * @return ResponseEntity of PostResponse
+     * @see IPostService#findAllPosts(Integer, Integer, String, String)
+     * @see PostService#findAllPosts(Integer, Integer, String, String)
      */
     @GetMapping
-    public ResponseEntity<List<PostDto>> findAllPosts() {
-        return new ResponseEntity<>(postService.findAllPosts(), HttpStatus.FOUND);
+    public ResponseEntity<PostResponse> findAllPosts(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) final Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) final Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "id", required = false) final String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) final String sortDir) {
+        return new ResponseEntity<>(postService.findAllPosts(pageNo, pageSize, sortBy, sortDir), HttpStatus.FOUND);
     }
 
     /**
