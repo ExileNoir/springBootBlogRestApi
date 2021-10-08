@@ -32,18 +32,18 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class PostServiceTest {
+class PostServiceImplTest {
 
     private IPostRepository repository;
     private MapperPost mapper;
-    private PostService service;
+    private PostServiceImpl service;
 
 
     @BeforeEach
     public void init() {
         repository = Mockito.mock(IPostRepository.class);
         mapper = new MapperPost();
-        service = new PostService(repository, mapper);
+        service = new PostServiceImpl(repository, mapper);
     }
 
     @Test

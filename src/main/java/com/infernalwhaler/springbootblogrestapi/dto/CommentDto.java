@@ -5,20 +5,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Post Dto
+ * Comment Dto
  *
  * @author sDeseure
  * @project springboot-blog-rest-api
- * @date 5/10/2021
+ * @date 8/10/2021
  */
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostDto {
+public class CommentDto {
 
     private Long id;
-    private String title;
-    private String description;
-    private String content;
+    private String name;
+    private String email;
+    private String body;
 }

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
+ * Post Response
+ *
  * @author sDeseure
  * @project springboot-blog-rest-api
  * @date 7/10/2021

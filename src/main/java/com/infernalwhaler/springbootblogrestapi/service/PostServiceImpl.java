@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -28,13 +29,13 @@ import java.util.stream.Collectors;
  */
 
 @Service
-public class PostService implements IPostService {
+public class PostServiceImpl implements IPostService {
 
     private final IPostRepository postRepository;
     private final MapperPost mapperPost;
 
     @Autowired
-    public PostService(IPostRepository repository, MapperPost mapperPost) {
+    public PostServiceImpl(IPostRepository repository, MapperPost mapperPost) {
         this.postRepository = repository;
         this.mapperPost = mapperPost;
     }
@@ -49,10 +50,9 @@ public class PostService implements IPostService {
      */
     @Override
     public PostDto createPost(final PostDto postDto) {
-        // todo should be on title not id
-//        if (postRepository.findById(postDto.getId()).isPresent()) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
+        if (!Objects.isNull(postRepository.findByTitle(postDto.getTitle()))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Post with Title: '" + postDto.getTitle() + "' Already Exists");
+        }
         final Post post = mapperPost.mapToPost(postDto);
         final Post newPost = postRepository.save(post);
         return mapperPost.mapToPostDto(newPost);
@@ -78,12 +78,12 @@ public class PostService implements IPostService {
         final Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         final Page<Post> postPages = postRepository.findAll(pageable);
         if (postPages.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No post pages found");
         }
 
         final List<Post> posts = postPages.getContent();
         if (posts.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No posts found");
         }
 
         final List<PostDto> postDtos = posts

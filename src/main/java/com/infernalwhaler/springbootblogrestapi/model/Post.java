@@ -1,10 +1,11 @@
 package com.infernalwhaler.springbootblogrestapi.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Post Entity
@@ -15,7 +16,6 @@ import javax.persistence.*;
  */
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})})
@@ -33,4 +33,20 @@ public class Post {
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
+
+    public Post(String title, String description, String content) {
+        this.title = title;
+        this.description = description;
+        this.content = content;
+    }
+
+    public Post(Long id, String title, String description, String content) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.content = content;
+    }
 }

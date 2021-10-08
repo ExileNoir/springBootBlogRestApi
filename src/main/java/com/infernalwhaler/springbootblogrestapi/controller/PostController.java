@@ -3,7 +3,7 @@ package com.infernalwhaler.springbootblogrestapi.controller;
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
 import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.service.IPostService;
-import com.infernalwhaler.springbootblogrestapi.service.PostService;
+import com.infernalwhaler.springbootblogrestapi.service.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ public class PostController {
      * @param postDto
      * @return ResponseEntity of PostDto
      * @see IPostService#createPost(PostDto)
-     * @see PostService#createPost(PostDto)
+     * @see PostServiceImpl#createPost(PostDto)
      */
     @PostMapping
     public ResponseEntity<PostDto> createPost(@RequestBody final PostDto postDto) {
@@ -50,7 +50,7 @@ public class PostController {
      * @param sortDir  of Object String
      * @return ResponseEntity of PostResponse
      * @see IPostService#findAllPosts(Integer, Integer, String, String)
-     * @see PostService#findAllPosts(Integer, Integer, String, String)
+     * @see PostServiceImpl#findAllPosts(Integer, Integer, String, String)
      */
     @GetMapping
     public ResponseEntity<PostResponse> findAllPosts(
@@ -67,7 +67,7 @@ public class PostController {
      * @param id of Object Long
      * @return ResponseEntity PostDto
      * @see IPostService#findById(Long)
-     * @see PostService#findById(Long) (long)
+     * @see PostServiceImpl#findById(Long) (long)
      */
 
     @GetMapping("/{id}")
@@ -82,10 +82,11 @@ public class PostController {
      * @param postDto of Object PostDto
      * @return ResponseEntity PostDto
      * @see IPostService#updatePost(Long, PostDto)
-     * @see PostService#updatePost(Long, PostDto)
+     * @see PostServiceImpl#updatePost(Long, PostDto)
      */
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@PathVariable("id") final Long id, @RequestBody final PostDto postDto) {
+    public ResponseEntity<PostDto> updatePost(@PathVariable("id") final Long id,
+                                              @RequestBody final PostDto postDto) {
         return new ResponseEntity<>(postService.updatePost(id, postDto), HttpStatus.OK);
     }
 
@@ -95,7 +96,7 @@ public class PostController {
      * @param id of Object Long
      * @return ResponseEntity String
      * @see IPostService#deletePostById(Long)
-     * @see PostService#deletePostById(Long)
+     * @see PostServiceImpl#deletePostById(Long)
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable("id") final Long id) {

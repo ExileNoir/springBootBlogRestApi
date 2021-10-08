@@ -16,24 +16,20 @@ import org.springframework.stereotype.Component;
 public class MapperPost {
 
     /**
-     * Mapper for Post
+     * Mapper to Post
      *
-     * @param postDto
-     * @return Post
+     * @param postDto of Object PostDto
+     * @return Post Object
      */
     public Post mapToPost(final PostDto postDto) {
-        final Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
-        return post;
+        return new Post(postDto.getTitle(), postDto.getDescription(), postDto.getContent());
     }
 
     /**
-     * Mapper for PostDto
+     * Mapper to PostDto
      *
-     * @param post
-     * @return PostDto
+     * @param post of Object PostDto
+     * @return PostDto Object
      */
     public PostDto mapToPostDto(final Post post) {
         return new PostDto(post.getId(), post.getTitle(), post.getDescription(), post.getContent());
