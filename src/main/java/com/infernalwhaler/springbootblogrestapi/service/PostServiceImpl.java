@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Post Service
+ * Post Service Implementation
  *
  * @author sDeseure
  * @project springboot-blog-rest-api

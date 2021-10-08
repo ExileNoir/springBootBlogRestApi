@@ -1,6 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.controller;
 
 import com.infernalwhaler.springbootblogrestapi.dto.CommentDto;
+import com.infernalwhaler.springbootblogrestapi.service.CommentServiceImpl;
 import com.infernalwhaler.springbootblogrestapi.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,23 +29,59 @@ public class CommentController {
         this.commentService = commentService;
     }
 
+    /**
+     * Create Comment Rest Api
+     *
+     * @param postId     of Object Long
+     * @param commentDto request body
+     * @return ResponseEntity of CommentDto
+     * @see ICommentService#createComment(Long, CommentDto)
+     * @see CommentServiceImpl#createComment(Long, CommentDto)
+     */
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDto> createCommentDto(@PathVariable("postId") final Long postId,
                                                        @RequestBody final CommentDto commentDto) {
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
     }
 
+    /**
+     * Find all Comments linked to a Post Rest Api
+     *
+     * @param postId of Object Long, as verification of existing Post
+     * @return ResponseEntity of CommentDtos
+     * @see ICommentService#findCommentsByPostId(Long)
+     * @see CommentServiceImpl#findCommentsByPostId(Long)
+     */
     @GetMapping("/posts/{postId}/comments")
     public ResponseEntity<List<CommentDto>> findCommentsByPostId(@PathVariable("postId") final Long postId) {
         return new ResponseEntity<>(commentService.findCommentsByPostId(postId), HttpStatus.FOUND);
     }
 
+    /**
+     * Find Comment by ID Rest Api
+     *
+     * @param postId of Object Long, as verification of existing Post
+     * @param id     of Object long to retrieve the Comment
+     * @return ResponseEntity of CommentDto
+     * @see ICommentService#findCommentById(Long, Long)
+     * @see CommentServiceImpl#findCommentById(Long, Long)
+     */
     @GetMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<CommentDto> findCommentById(@PathVariable("postId") final Long postId,
                                                       @PathVariable("id") final Long id) {
         return new ResponseEntity<>(commentService.findCommentById(postId, id), HttpStatus.FOUND);
     }
 
+    /**
+     * Update Comment Rest Api
+     *
+     * @param postId     of Object Long, as verification of existing Post
+     * @param id         of Object long to retrieve the Comment
+     * @param commentDto new content to update
+     * @return ResponseEntity of updated CommentDto
+     * @see ICommentService#updateComment(Long, Long, CommentDto)
+     * @see CommentServiceImpl#updateComment(Long, Long, CommentDto)
+     */
     @PutMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable("postId") final Long postId,
                                                     @PathVariable("id") final Long id,
@@ -52,6 +89,15 @@ public class CommentController {
         return new ResponseEntity<>(commentService.updateComment(postId, id, commentDto), HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Delete Comment Rest Api
+     *
+     * @param postId of Object Long, as verification of existing Post
+     * @param id     of Object long to retrieve the Comment
+     * @return ResponseEntity  of Object String message
+     * @see ICommentService#deleteComment(Long, Long)
+     * @see CommentServiceImpl#deleteComment(Long, Long)
+     */
     @DeleteMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable("postId") final Long postId,
                                                 @PathVariable("id") final Long id) {

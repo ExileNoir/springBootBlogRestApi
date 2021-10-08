@@ -15,5 +15,11 @@ import java.util.List;
 
 public interface ICommentRepository extends JpaRepository<Comment, Long> {
 
+    /**
+     * find Comments By Post ID
+     *
+     * @param postId Of Object Long to retrieve Post with Comments
+     * @return List of Comments
+     */
     List<Comment> findByPostId(final Long postId);
 }

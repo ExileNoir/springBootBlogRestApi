@@ -31,7 +31,7 @@ public class PostController {
     /**
      * Create Blog Post Rest Api
      *
-     * @param postDto
+     * @param postDto request body
      * @return ResponseEntity of PostDto
      * @see IPostService#createPost(PostDto)
      * @see PostServiceImpl#createPost(PostDto)
@@ -42,7 +42,7 @@ public class PostController {
     }
 
     /**
-     * Get all Blog Posts Rest Api
+     * Find all Blog Posts Rest Api
      *
      * @param pageNo   of Object Integer
      * @param pageSize of Object Integer
@@ -64,7 +64,7 @@ public class PostController {
     /**
      * Find Post by ID Rest Api
      *
-     * @param id of Object Long
+     * @param id of Object Long to retrieve Post
      * @return ResponseEntity PostDto
      * @see IPostService#findById(Long)
      * @see PostServiceImpl#findById(Long) (long)
@@ -78,9 +78,9 @@ public class PostController {
     /**
      * Update Post Rest Api
      *
-     * @param id      of Object Long
-     * @param postDto of Object PostDto
-     * @return ResponseEntity PostDto
+     * @param id      of Object Long to retrieve Post
+     * @param postDto of Object PostDto to update Post
+     * @return ResponseEntity of updated PostDto
      * @see IPostService#updatePost(Long, PostDto)
      * @see PostServiceImpl#updatePost(Long, PostDto)
      */
@@ -93,8 +93,8 @@ public class PostController {
     /**
      * Delete Post Rest Api
      *
-     * @param id of Object Long
-     * @return ResponseEntity String
+     * @param id of Object Long to retrieve Post
+     * @return ResponseEntity of Object String message
      * @see IPostService#deletePostById(Long)
      * @see PostServiceImpl#deletePostById(Long)
      */
