@@ -3,7 +3,7 @@ package com.infernalwhaler.springbootblogrestapi.service;
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
 import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
-import com.infernalwhaler.springbootblogrestapi.mapper.MapperPost;
+import com.infernalwhaler.springbootblogrestapi.mapper.Mapper;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.repository.IPostRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,14 +35,14 @@ import static org.mockito.Mockito.*;
 class PostServiceImplTest {
 
     private IPostRepository repository;
-    private MapperPost mapper;
+    private Mapper mapper;
     private PostServiceImpl service;
 
 
     @BeforeEach
     public void init() {
         repository = Mockito.mock(IPostRepository.class);
-        mapper = new MapperPost();
+        mapper = new Mapper();
         service = new PostServiceImpl(repository, mapper);
     }
 

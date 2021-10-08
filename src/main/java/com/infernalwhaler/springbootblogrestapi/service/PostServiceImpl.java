@@ -4,7 +4,7 @@ import com.infernalwhaler.springbootblogrestapi.controller.PostController;
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
 import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
-import com.infernalwhaler.springbootblogrestapi.mapper.MapperPost;
+import com.infernalwhaler.springbootblogrestapi.mapper.Mapper;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +32,12 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements IPostService {
 
     private final IPostRepository postRepository;
-    private final MapperPost mapperPost;
+    private final Mapper mapper;
 
     @Autowired
-    public PostServiceImpl(IPostRepository repository, MapperPost mapperPost) {
+    public PostServiceImpl(IPostRepository repository, Mapper mapper) {
         this.postRepository = repository;
-        this.mapperPost = mapperPost;
+        this.mapper = mapper;
     }
 
     /**
@@ -53,9 +53,9 @@ public class PostServiceImpl implements IPostService {
         if (!Objects.isNull(postRepository.findByTitle(postDto.getTitle()))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Post with Title: '" + postDto.getTitle() + "' Already Exists");
         }
-        final Post post = mapperPost.mapToPost(postDto);
+        final Post post = mapper.mapToPost(postDto);
         final Post newPost = postRepository.save(post);
-        return mapperPost.mapToPostDto(newPost);
+        return mapper.mapToPostDto(newPost);
     }
 
     /**
@@ -88,7 +88,7 @@ public class PostServiceImpl implements IPostService {
 
         final List<PostDto> postDtos = posts
                 .stream()
-                .map(mapperPost::mapToPostDto)
+                .map(mapper::mapToPostDto)
                 .collect(Collectors.toList());
 
         return new PostResponse(postDtos, postPages.getNumber(), postPages.getSize(), postPages.getTotalElements(), postPages.getTotalPages(), postPages.isLast());
@@ -105,7 +105,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     public PostDto findById(final Long id) {
         return postRepository.findById(id)
-                .map(mapperPost::mapToPostDto)
+                .map(mapper::mapToPostDto)
                 .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
     }
 
@@ -129,7 +129,7 @@ public class PostServiceImpl implements IPostService {
 
         final Post postUpdated = postRepository.save(postToUpdate);
 
-        return mapperPost.mapToPostDto(postUpdated);
+        return mapper.mapToPostDto(postUpdated);
     }
 
     /**

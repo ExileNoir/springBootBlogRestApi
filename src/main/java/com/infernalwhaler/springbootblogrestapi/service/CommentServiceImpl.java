@@ -4,7 +4,7 @@ import com.infernalwhaler.springbootblogrestapi.controller.CommentController;
 import com.infernalwhaler.springbootblogrestapi.dto.CommentDto;
 import com.infernalwhaler.springbootblogrestapi.exceptions.BlogApiException;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
-import com.infernalwhaler.springbootblogrestapi.mapper.MapperComment;
+import com.infernalwhaler.springbootblogrestapi.mapper.Mapper;
 import com.infernalwhaler.springbootblogrestapi.model.Comment;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.repository.ICommentRepository;
@@ -29,11 +29,11 @@ public class CommentServiceImpl implements ICommentService {
 
     private final ICommentRepository commentRepository;
     private final IPostRepository postRepository;
-    private final MapperComment mapper;
+    private final Mapper mapper;
 
 
     @Autowired
-    public CommentServiceImpl(ICommentRepository commentRepository, IPostRepository postRepository, MapperComment mapper) {
+    public CommentServiceImpl(ICommentRepository commentRepository, IPostRepository postRepository, Mapper mapper) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
         this.mapper = mapper;
