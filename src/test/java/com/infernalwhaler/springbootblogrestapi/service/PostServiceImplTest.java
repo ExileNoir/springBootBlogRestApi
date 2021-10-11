@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ class PostServiceImplTest {
     @Test
     void shouldCreatePost() {
         final Post post = new Post(1L, "Title", "Description", "Content");
-        final PostDto postDto = new PostDto(1L, "Title", "Description", "Content");
+        final PostDto postDto = new PostDto(1L, "Title", "Description", "Content", null);
 
         when(repository.save(any()))
                 .thenReturn(post);
@@ -64,7 +65,7 @@ class PostServiceImplTest {
     void shouldNotCreatePost() {
         final PostDto postDto = new PostDto(1L, "Title", "Description", "Content");
 
-        when(repository.findById(any()))
+        when(repository.save(any()))
                 .thenThrow(ResponseStatusException.class);
 
         assertThrows(ResponseStatusException.class, () -> service.createPost(postDto));
@@ -80,7 +81,7 @@ class PostServiceImplTest {
         when(repository.findAll(pageable))
                 .thenReturn(new PageImpl<>(posts));
 
-        final PostResponse postResponse = service.findAllPosts(0, 5, "content","asc");
+        final PostResponse postResponse = service.findAllPosts(0, 5, "content", "asc");
 
         assertNotNull(postResponse);
         assertEquals("AA", postResponse.getContent().get(0).getTitle());
@@ -89,17 +90,17 @@ class PostServiceImplTest {
 
     @Test
     void shouldNotFindAllPosts() {
-        final Pageable pageable = PageRequest.of(0, 5,Sort.by("title"));
+        final Pageable pageable = PageRequest.of(0, 5, Sort.by("title"));
         when(repository.findAll(pageable))
                 .thenThrow(ResponseStatusException.class);
 
-        assertThrows(ResponseStatusException.class, () -> service.findAllPosts(0, 5, "title","asc"));
+        assertThrows(ResponseStatusException.class, () -> service.findAllPosts(0, 5, "title", "asc"));
     }
 
     @Test
     void shouldFindById() {
         final Post post = new Post(1L, "Title", "Description", "Content");
-        final PostDto postDto = new PostDto(1L, "Title", "Description", "Content");
+        final PostDto postDto = new PostDto(1L, "Title", "Description", "Content", new HashSet<>());
 
         when(repository.findById(1L))
                 .thenReturn(Optional.of(post));
@@ -116,20 +117,17 @@ class PostServiceImplTest {
         final PostDto postDto = new PostDto(1L, "Title", "Description", "Content");
 
         when(repository.findById(1L))
-                .thenReturn(Optional.of(post));
+                .thenThrow(ResponseStatusException.class);
 
-        final PostDto pDtoById = service.findById(1L);
-
-        assertNotNull(pDtoById);
-        assertEquals(postDto, pDtoById);
+        assertThrows(ResponseStatusException.class, () -> service.findById(1L));
     }
 
     @Test
     void shouldUpdatePost() {
         final Post post = new Post(1L, "Title", "Description", "Content");
         final Post postU = new Post(1L, "Title UPDATED", "Description UPDATED", "Content");
-        final PostDto postDto = new PostDto(1L, "Title", "Description", "Content");
-        final PostDto postDtoU = new PostDto(1L, "Title UPDATED", "Description UPDATED", "Content");
+        final PostDto postDto = new PostDto(1L, "Title", "Description", "Content", new HashSet<>());
+        final PostDto postDtoU = new PostDto(1L, "Title UPDATED", "Description UPDATED", "Content", new HashSet<>());
 
         when(repository.findById(1L))
                 .thenReturn(Optional.of(post));
