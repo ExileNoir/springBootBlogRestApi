@@ -2,7 +2,7 @@ package com.infernalwhaler.springbootblogrestapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
-import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
+import com.infernalwhaler.springbootblogrestapi.model.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.service.IPostService;
 import lombok.SneakyThrows;

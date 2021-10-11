@@ -1,13 +1,15 @@
 package com.infernalwhaler.springbootblogrestapi.controller;
 
 import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
-import com.infernalwhaler.springbootblogrestapi.dto.PostResponse;
+import com.infernalwhaler.springbootblogrestapi.model.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.service.IPostService;
 import com.infernalwhaler.springbootblogrestapi.service.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Post Rest Controller
@@ -37,7 +39,7 @@ public class PostController {
      * @see PostServiceImpl#createPost(PostDto)
      */
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody final PostDto postDto) {
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody final PostDto postDto) {
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
@@ -86,7 +88,7 @@ public class PostController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@PathVariable("id") final Long id,
-                                              @RequestBody final PostDto postDto) {
+                                              @Valid @RequestBody final PostDto postDto) {
         return new ResponseEntity<>(postService.updatePost(id, postDto), HttpStatus.OK);
     }
 

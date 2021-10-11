@@ -1,5 +1,6 @@
-package com.infernalwhaler.springbootblogrestapi.dto;
+package com.infernalwhaler.springbootblogrestapi.model;
 
+import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
