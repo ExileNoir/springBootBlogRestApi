@@ -1,6 +1,6 @@
 package com.infernalwhaler.springbootblogrestapi.service;
 
-import com.infernalwhaler.springbootblogrestapi.dto.CommentDto;
+import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
 
 import java.util.List;
 

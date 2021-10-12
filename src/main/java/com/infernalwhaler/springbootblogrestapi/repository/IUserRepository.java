@@ -1,6 +1,6 @@
 package com.infernalwhaler.springbootblogrestapi.repository;
 
-import com.infernalwhaler.springbootblogrestapi.model.User;
+import com.infernalwhaler.springbootblogrestapi.payload.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -26,27 +26,27 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     /**
      * Find User by userName or Email
      *
-     * @param userName of Object String
+     * @param username of Object String
      * @param email    of Object String
      * @return Optional of User object
      */
-    Optional<User> findByUserNameOrEmail(final String userName, final String email);
+    Optional<User> findByUsernameOrEmail(final String username, final String email);
 
     /**
      * Find User by userName
      *
-     * @param userName of Object String
+     * @param username of Object String
      * @return Optional of User object
      */
-    Optional<User> findByUserName(final String userName);
+    Optional<User> findByUsername(final String username);
 
     /**
      * See if User exists by userName
      *
-     * @param userName of object String
+     * @param username of object String
      * @return Boolean object
      */
-    Boolean existsByUserName(final String userName);
+    Boolean existsByUsername(final String username);
 
     /**
      * See if User exists by Email

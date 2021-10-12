@@ -11,5 +11,10 @@ spring:
         hibernate:
           dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
+
 logging:
   level.org.springframework.security: debug
+
+app:
+  jwt-secret: JWTSecretKey
+  jwt-expiration-milliseconds: 604800000

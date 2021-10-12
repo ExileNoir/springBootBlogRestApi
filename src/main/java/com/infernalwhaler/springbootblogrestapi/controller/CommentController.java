@@ -1,6 +1,6 @@
 package com.infernalwhaler.springbootblogrestapi.controller;
 
-import com.infernalwhaler.springbootblogrestapi.dto.CommentDto;
+import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
 import com.infernalwhaler.springbootblogrestapi.service.CommentServiceImpl;
 import com.infernalwhaler.springbootblogrestapi.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;

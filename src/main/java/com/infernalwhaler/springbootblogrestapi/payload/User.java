@@ -1,6 +1,7 @@
-package com.infernalwhaler.springbootblogrestapi.model;
+package com.infernalwhaler.springbootblogrestapi.payload;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.Set;
  */
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"username"}),
@@ -24,7 +26,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String userName;
+    private String username;
     private String email;
     private String password;
 
@@ -33,4 +35,11 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
+
+    public User(String name, String username, String email, String password) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }

@@ -1,4 +1,4 @@
-package com.infernalwhaler.springbootblogrestapi.model;
+package com.infernalwhaler.springbootblogrestapi.payload;
 
 import lombok.Getter;
 import lombok.Setter;

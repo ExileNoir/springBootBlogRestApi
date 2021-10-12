@@ -1,7 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.service;
 
 import com.infernalwhaler.springbootblogrestapi.controller.CommentController;
-import com.infernalwhaler.springbootblogrestapi.dto.CommentDto;
+import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
 import com.infernalwhaler.springbootblogrestapi.exceptions.BlogApiException;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
 import com.infernalwhaler.springbootblogrestapi.mapper.Mapper;

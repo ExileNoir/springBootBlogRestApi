@@ -1,8 +1,8 @@
 package com.infernalwhaler.springbootblogrestapi.service;
 
 import com.infernalwhaler.springbootblogrestapi.controller.PostController;
-import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
-import com.infernalwhaler.springbootblogrestapi.model.PostResponse;
+import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
+import com.infernalwhaler.springbootblogrestapi.payload.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
 import com.infernalwhaler.springbootblogrestapi.mapper.Mapper;
 import com.infernalwhaler.springbootblogrestapi.model.Post;

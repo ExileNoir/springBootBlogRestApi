@@ -1,7 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.controller;
 
-import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
-import com.infernalwhaler.springbootblogrestapi.model.PostResponse;
+import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
+import com.infernalwhaler.springbootblogrestapi.payload.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.service.IPostService;
 import com.infernalwhaler.springbootblogrestapi.service.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

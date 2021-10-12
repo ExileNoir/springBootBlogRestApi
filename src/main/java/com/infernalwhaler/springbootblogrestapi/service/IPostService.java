@@ -1,7 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.service;
 
-import com.infernalwhaler.springbootblogrestapi.dto.PostDto;
-import com.infernalwhaler.springbootblogrestapi.model.PostResponse;
+import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
+import com.infernalwhaler.springbootblogrestapi.payload.PostResponse;
 
 /**
  * IPost Service
