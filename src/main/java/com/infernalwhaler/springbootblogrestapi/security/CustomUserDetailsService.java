@@ -1,7 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.security;
 
-import com.infernalwhaler.springbootblogrestapi.payload.Role;
-import com.infernalwhaler.springbootblogrestapi.payload.User;
+import com.infernalwhaler.springbootblogrestapi.model.Role;
+import com.infernalwhaler.springbootblogrestapi.model.User;
 import com.infernalwhaler.springbootblogrestapi.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,6 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(final String userNameOrEmail) throws UsernameNotFoundException {

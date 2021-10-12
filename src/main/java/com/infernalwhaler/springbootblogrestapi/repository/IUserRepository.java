@@ -1,6 +1,6 @@
 package com.infernalwhaler.springbootblogrestapi.repository;
 
-import com.infernalwhaler.springbootblogrestapi.payload.User;
+import com.infernalwhaler.springbootblogrestapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

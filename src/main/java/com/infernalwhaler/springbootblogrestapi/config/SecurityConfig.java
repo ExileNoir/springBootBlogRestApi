@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
+ * Security Config Class
+ *
  * @author sDeseure
  * @project springboot-blog-rest-api
  * @date 11/10/2021
@@ -62,6 +64,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/v2/api-docs/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/swagger-ui.html/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
                 .anyRequest()
                 .authenticated();
 
@@ -81,25 +88,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-
-//    @Override
-//    @Bean
-//    protected UserDetailsService userDetailsService() {
-//        final UserDetails exileNoir = User.builder()
-//                .username("ExileNoir")
-//                .password(
-//                        passwordEncoder().encode("pwd"))
-//                .roles("ADMIN")
-//                .build();
-//
-//        final UserDetails salome = User.builder()
-//                .username("Salome")
-//                .password(
-//                        passwordEncoder().encode("ds"))
-//                .roles("USER")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(exileNoir, salome);
-//    }
 }
