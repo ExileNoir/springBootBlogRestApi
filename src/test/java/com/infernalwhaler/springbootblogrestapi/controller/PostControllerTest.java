@@ -1,13 +1,12 @@
 package com.infernalwhaler.springbootblogrestapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
 import com.infernalwhaler.springbootblogrestapi.payload.PostResponse;
-import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.service.IPostService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,9 +21,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author sDeseure
@@ -68,25 +68,6 @@ class PostControllerTest {
 
     @SneakyThrows
     @Test
-    void ShouldCreatePost() {
-        final PostDto postDto = buildPostDto();
-
-        when(postService.createPost(any(PostDto.class)))
-                .thenReturn(postDto);
-
-        mockMvc.perform(post(URL_TEMPLATE)
-                        .contentType(APPLICATION_JSON)
-                        .content(mapperToJson(postDto)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.title").value("Title"))
-                .andDo(print())
-                .andReturn()
-                .getResponse();
-    }
-
-    @SneakyThrows
-    @Test
     void findAllPosts() {
         final List<PostDto> postDtos = List.of(buildPostDto(), buildPostDto01());
 
@@ -97,7 +78,7 @@ class PostControllerTest {
         final PostResponse postResponse =
                 new PostResponse(postDtos, postPage.getNumber(), postPage.getSize(), postPage.getTotalElements(), postPage.getSize(), postPage.isLast());
 
-        when(postService.findAllPosts(any(), any(),any(),any()))
+        when(postService.findAllPosts(any(), any(), any(), any()))
                 .thenReturn(postResponse);
 
         mockMvc.perform(get(URL_TEMPLATE)
@@ -112,38 +93,4 @@ class PostControllerTest {
                 .andReturn()
                 .getResponse();
     }
-
-    @SneakyThrows
-    @Test
-    void updatePost() {
-        when(postService.updatePost(1L, buildPostDto()))
-                .thenReturn(updatePostDto(buildPostDto()));
-
-        mockMvc.perform(put(URL_TEMPLATE + "/{id}", 1L)
-                        .contentType(APPLICATION_JSON)
-                        .content(mapperToJson(buildPostDto())))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.title").value("UPDATED TITLE"))
-                .andDo(print())
-                .andReturn()
-                .getResponse();
-    }
-
-    @SneakyThrows
-    @Test
-    void deletePost() {
-        Mockito.doNothing()
-                .when(postService)
-                .deletePostById(buildPostDto().getId());
-
-        mockMvc.perform(delete(URL_TEMPLATE + "/{id}", 1L)
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isAccepted())
-                .andExpect(content().string("Post Deleted Successfully with id: '" + buildPostDto().getId() + "'"))
-                .andDo(print())
-                .andReturn()
-                .getResponse();
-    }
-
 }
