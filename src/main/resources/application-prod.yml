@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:mysql://infernalwhaler.colbwtds2kha.eu-west-3.rds.amazonaws.com:3306/myblog
-    username: root
-    password: ExileNoir83
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
