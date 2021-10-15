@@ -1,11 +1,11 @@
 package com.infernalwhaler.springbootblogrestapi.service;
 
 import com.infernalwhaler.springbootblogrestapi.controller.PostController;
-import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
-import com.infernalwhaler.springbootblogrestapi.payload.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
 import com.infernalwhaler.springbootblogrestapi.mapper.Mapper;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
+import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
+import com.infernalwhaler.springbootblogrestapi.payload.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +34,7 @@ public class PostServiceImpl implements IPostService {
     private final IPostRepository postRepository;
     private final Mapper mapper;
 
+
     @Autowired
     public PostServiceImpl(IPostRepository repository, Mapper mapper) {
         this.postRepository = repository;
@@ -51,7 +52,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     public PostDto createPost(final PostDto postDto) {
         if (!Objects.isNull(postRepository.findByTitle(postDto.getTitle()))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Post with Title: '" + postDto.getTitle() + "' Already Exists");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post with Title: '" + postDto.getTitle() + "' Already Exists");
         }
         final Post post = mapper.mapToPost(postDto);
         final Post newPost = postRepository.save(post);

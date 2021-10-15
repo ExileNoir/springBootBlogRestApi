@@ -10,6 +10,8 @@ import com.infernalwhaler.springbootblogrestapi.repository.IUserRepository;
 import com.infernalwhaler.springbootblogrestapi.security.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,9 @@ public class AuthController {
     private final IRoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider tokenProvider;
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, IUserRepository userRepository,
@@ -90,10 +95,12 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody final SignUpDto signUpDto) {
         // add check if username exists in DB
         if (userRepository.existsByUsername(signUpDto.getUsername())) {
+            logger.info("Username is already taken: '" + signUpDto.getUsername() + "'");
             return new ResponseEntity<>("Username is already taken", HttpStatus.BAD_REQUEST);
         }
         // add check for email exists in Db
         if (userRepository.existsByEmail(signUpDto.getEmail())) {
+            logger.info("Email is already taken: '" + signUpDto.getEmail() + "'");
             return new ResponseEntity<>("Email is already taken", HttpStatus.BAD_REQUEST);
         }
 
