@@ -1,9 +1,9 @@
 package com.infernalwhaler.springbootblogrestapi.mapper;
 
-import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
-import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
 import com.infernalwhaler.springbootblogrestapi.model.Comment;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
+import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
+import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

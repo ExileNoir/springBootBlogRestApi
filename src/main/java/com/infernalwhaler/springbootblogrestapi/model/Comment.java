@@ -1,12 +1,13 @@
 package com.infernalwhaler.springbootblogrestapi.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 /**
+ * A Comment-Entity
+ *
  * @author sDeseure
  * @project springboot-blog-rest-api
  * @date 8/10/2021

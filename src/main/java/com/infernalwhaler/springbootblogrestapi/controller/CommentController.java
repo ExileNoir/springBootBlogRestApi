@@ -3,9 +3,6 @@ package com.infernalwhaler.springbootblogrestapi.controller;
 import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
 import com.infernalwhaler.springbootblogrestapi.service.CommentServiceImpl;
 import com.infernalwhaler.springbootblogrestapi.service.ICommentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +19,11 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/api/")
-@Api(value = "CRUD REST APIs For Comment Resource")
+@RequestMapping("/api/posts/")
 public class CommentController {
 
     private final ICommentService commentService;
 
-    @Autowired
     public CommentController(ICommentService commentService) {
         this.commentService = commentService;
     }
@@ -42,8 +37,7 @@ public class CommentController {
      * @see ICommentService#createComment(Long, CommentDto)
      * @see CommentServiceImpl#createComment(Long, CommentDto)
      */
-    @PostMapping("/posts/{postId}/comments")
-    @ApiOperation(value = "Create Comment REST API")
+    @PostMapping("{postId}/comments")
     public ResponseEntity<CommentDto> createCommentDto(@PathVariable("postId") final Long postId,
                                                        @Valid @RequestBody final CommentDto commentDto) {
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
@@ -57,8 +51,7 @@ public class CommentController {
      * @see ICommentService#findCommentsByPostId(Long)
      * @see CommentServiceImpl#findCommentsByPostId(Long)
      */
-    @GetMapping("/posts/{postId}/comments")
-    @ApiOperation(value = "Find All Comments By Post ID REST API")
+    @GetMapping("{postId}/comments")
     public ResponseEntity<List<CommentDto>> findCommentsByPostId(@PathVariable("postId") final Long postId) {
         return new ResponseEntity<>(commentService.findCommentsByPostId(postId), HttpStatus.FOUND);
     }
@@ -72,8 +65,7 @@ public class CommentController {
      * @see ICommentService#findCommentById(Long, Long)
      * @see CommentServiceImpl#findCommentById(Long, Long)
      */
-    @GetMapping("/posts/{postId}/comments/{id}")
-    @ApiOperation(value = "Find Single Comments By ID REST API")
+    @GetMapping("{postId}/comments/{id}")
     public ResponseEntity<CommentDto> findCommentById(@PathVariable("postId") final Long postId,
                                                       @PathVariable("id") final Long id) {
         return new ResponseEntity<>(commentService.findCommentById(postId, id), HttpStatus.FOUND);
@@ -89,8 +81,7 @@ public class CommentController {
      * @see ICommentService#updateComment(Long, Long, CommentDto)
      * @see CommentServiceImpl#updateComment(Long, Long, CommentDto)
      */
-    @PutMapping("/posts/{postId}/comments/{id}")
-    @ApiOperation(value = "Update Single Comments By ID REST API")
+    @PutMapping("{postId}/comments/{id}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable("postId") final Long postId,
                                                     @PathVariable("id") final Long id,
                                                     @Valid @RequestBody final CommentDto commentDto) {
@@ -106,8 +97,7 @@ public class CommentController {
      * @see ICommentService#deleteComment(Long, Long)
      * @see CommentServiceImpl#deleteComment(Long, Long)
      */
-    @DeleteMapping("/posts/{postId}/comments/{id}")
-    @ApiOperation(value = "Delete Single Comments By ID REST API")
+    @DeleteMapping("{postId}/comments/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable("postId") final Long postId,
                                                 @PathVariable("id") final Long id) {
         commentService.deleteComment(postId, id);

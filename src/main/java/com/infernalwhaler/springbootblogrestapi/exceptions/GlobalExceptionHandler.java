@@ -7,7 +7,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 /**
  * Handle Exceptions globally
@@ -54,7 +52,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BlogApiException.class)
     public ResponseEntity<ErrorDetails> handleBlogApiException(final BlogApiException exc,
                                                                final WebRequest request) {
-        final ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), exc.getMessage(), request.getDescription(false));
+        final ErrorDetails errorDetails =
+                new ErrorDetails(LocalDateTime.now(), exc.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
@@ -67,23 +66,38 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * @return ResponseEntity  of ErrorDetails
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDetails> handleGlobalException(final Exception exc, final WebRequest request) {
-        final ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), exc.getMessage(), request.getDescription(false));
+    public ResponseEntity<ErrorDetails> handleGlobalException(final Exception exc,
+                                                              final WebRequest request) {
+        final ErrorDetails errorDetails =
+                new ErrorDetails(LocalDateTime.now(), exc.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    /**
+     * Handles non valid arguments
+     *
+     * @param exc         Exception to be thrown when validation on an argument annotated with @Valid fails
+     * @param httpHeaders A data structure representing HTTP request or response headers
+     * @param httpStatus  Enumeration of HTTP status codes.
+     * @param request     Generic interface for a web request
+     * @return ResponseEntity  of Object mapped Errors
+     */
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders httpHeaders, final HttpStatus httpStatus, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException exc,
+                                                                  final HttpHeaders httpHeaders,
+                                                                  final HttpStatus httpStatus,
+                                                                  final WebRequest request) {
         final Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors()
+        exc.getBindingResult()
+                .getAllErrors()
                 .forEach(error -> {
                     final String fieldName = ((FieldError) error).getField();
                     final String message = error.getDefaultMessage();
                     errors.put(fieldName, message);
                 });
 
-        return new ResponseEntity<>(errors, BAD_REQUEST);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
-
 }

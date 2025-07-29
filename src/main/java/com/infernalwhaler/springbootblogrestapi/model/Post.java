@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A Post Entity
+ * A Post-Entity
  *
  * @author sDeseure
  * @project springboot-blog-rest-api

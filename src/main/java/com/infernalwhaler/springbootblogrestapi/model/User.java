@@ -1,7 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
