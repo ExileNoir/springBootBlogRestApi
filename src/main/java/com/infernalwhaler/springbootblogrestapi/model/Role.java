@@ -3,7 +3,7 @@ package com.infernalwhaler.springbootblogrestapi.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * Role Object

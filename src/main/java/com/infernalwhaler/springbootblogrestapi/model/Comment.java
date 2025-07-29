@@ -3,7 +3,7 @@ package com.infernalwhaler.springbootblogrestapi.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * A Comment-Entity

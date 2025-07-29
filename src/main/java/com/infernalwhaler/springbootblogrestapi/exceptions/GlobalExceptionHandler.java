@@ -2,6 +2,7 @@ package com.infernalwhaler.springbootblogrestapi.exceptions;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -87,7 +88,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException exc,
                                                                   final HttpHeaders httpHeaders,
-                                                                  final HttpStatus httpStatus,
+                                                                  final HttpStatusCode httpStatus,
                                                                   final WebRequest request) {
         final Map<String, String> errors = new HashMap<>();
         exc.getBindingResult()

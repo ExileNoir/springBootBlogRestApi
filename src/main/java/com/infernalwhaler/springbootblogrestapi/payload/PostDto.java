@@ -4,8 +4,7 @@ package com.infernalwhaler.springbootblogrestapi.payload;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import java.util.Set;
 
 /**
