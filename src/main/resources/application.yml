@@ -1,12 +1,9 @@
 spring:
   profiles:
     active: dev
-#    active: prod
+
 logging:
   level.org.springframework.security: debug
   file:
     name: log/application.log
 
-app:
-  jwt-secret: JWTSecretKey
-  jwt-expiration-milliseconds: 604800000

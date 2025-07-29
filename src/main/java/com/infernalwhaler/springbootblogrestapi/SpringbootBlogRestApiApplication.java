@@ -1,12 +1,16 @@
 package com.infernalwhaler.springbootblogrestapi;
 
+import com.infernalwhaler.springbootblogrestapi.model.Role;
+import com.infernalwhaler.springbootblogrestapi.repository.IRoleRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class SpringbootBlogRestApiApplication {
+public class SpringbootBlogRestApiApplication implements CommandLineRunner {
 
     @Bean
     public ModelMapper modelMapper(){
@@ -17,4 +21,17 @@ public class SpringbootBlogRestApiApplication {
         SpringApplication.run(SpringbootBlogRestApiApplication.class, args);
     }
 
+    @Autowired
+    private IRoleRepository roleRepository;
+
+    @Override
+    public void run(String... args) throws Exception {
+        final Role adminRole = new Role();
+        adminRole.setName("ROLE_ADMIN");
+        roleRepository.save(adminRole);
+
+        final Role userRole = new Role();
+        userRole.setName("ROLE_USER");
+        roleRepository.save(userRole);
+    }
 }
