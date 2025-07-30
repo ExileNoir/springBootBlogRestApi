@@ -28,10 +28,10 @@ import java.util.Set;
 @Service
 public class AuthServiceImpl implements IAuthService {
 
-    private AuthenticationManager authenticationManager;
-    private IUserRepository userRepository;
-    private IRoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final IUserRepository userRepository;
+    private final IRoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthServiceImpl(AuthenticationManager authenticationManager, IUserRepository userRepository, IRoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
