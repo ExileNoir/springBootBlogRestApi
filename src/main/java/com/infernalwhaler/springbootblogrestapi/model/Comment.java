@@ -1,9 +1,8 @@
 package com.infernalwhaler.springbootblogrestapi.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.*;
 
 /**
  * A Comment-Entity
@@ -13,10 +12,10 @@ import jakarta.persistence.*;
  * @date 8/10/2021
  */
 
-@Data
-@NoArgsConstructor
 @Entity
 @Table(name = "comments")
+@Data
+@NoArgsConstructor
 public class Comment {
 
     @Id

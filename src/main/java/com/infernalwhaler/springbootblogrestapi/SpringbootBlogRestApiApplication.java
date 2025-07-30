@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class SpringbootBlogRestApiApplication implements CommandLineRunner {
+public class SpringbootBlogRestApiApplication {
 
     @Bean
     public ModelMapper modelMapper(){
@@ -19,19 +19,5 @@ public class SpringbootBlogRestApiApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringbootBlogRestApiApplication.class, args);
-    }
-
-    @Autowired
-    private IRoleRepository roleRepository;
-
-    @Override
-    public void run(String... args) throws Exception {
-        final Role adminRole = new Role();
-        adminRole.setName("ROLE_ADMIN");
-        roleRepository.save(adminRole);
-
-        final Role userRole = new Role();
-        userRole.setName("ROLE_USER");
-        roleRepository.save(userRole);
     }
 }

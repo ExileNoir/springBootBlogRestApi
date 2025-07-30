@@ -1,10 +1,9 @@
 package com.infernalwhaler.springbootblogrestapi.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,11 +15,10 @@ import java.util.Set;
  * @date 5/10/2021
  */
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})})
+@Data
+@NoArgsConstructor
 public class Post {
 
     @Id

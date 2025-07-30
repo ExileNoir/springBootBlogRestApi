@@ -4,11 +4,19 @@ spring:
     username: root
     password: ExileNoir83
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  security:
+    user:
+      name: dev
+      password: dev
+      roles: ADMIN
+
   jpa:
     hibernate:
       ddl-auto: update
       properties:
         hibernate:
           dialect: org.hibernate.dialect.MySQLDialect
+
 server:
   port: 5000

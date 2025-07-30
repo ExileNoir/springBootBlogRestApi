@@ -4,6 +4,7 @@ import com.infernalwhaler.springbootblogrestapi.model.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * IComment Repository
@@ -21,5 +22,5 @@ public interface ICommentRepository extends JpaRepository<Comment, Long> {
      * @param postId Of Object Long to retrieve Post with Comments
      * @return List of Comments
      */
-    List<Comment> findByPostId(final Long postId);
+    Optional<List<Comment>> findByPostId(final Long postId);
 }

@@ -6,6 +6,7 @@ import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundExcep
 import com.infernalwhaler.springbootblogrestapi.mapper.Mapper;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.repository.IPostRepository;
+import com.infernalwhaler.springbootblogrestapi.service.impl.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -3,9 +3,10 @@ package com.infernalwhaler.springbootblogrestapi.controller;
 import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
 import com.infernalwhaler.springbootblogrestapi.payload.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.service.IPostService;
-import com.infernalwhaler.springbootblogrestapi.service.PostServiceImpl;
+import com.infernalwhaler.springbootblogrestapi.service.impl.PostServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -39,6 +40,7 @@ public class PostController {
      * @see PostServiceImpl#createPost(PostDto)
      */
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody final PostDto postDto) {
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
@@ -87,6 +89,7 @@ public class PostController {
      * @see PostServiceImpl#updatePost(Long, PostDto)
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PostDto> updatePost(@PathVariable("id") final Long id,
                                               @Valid @RequestBody final PostDto postDto) {
         return new ResponseEntity<>(postService.updatePost(id, postDto), HttpStatus.OK);
@@ -101,6 +104,7 @@ public class PostController {
      * @see PostServiceImpl#deletePostById(Long)
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deletePost(@PathVariable("id") final Long id) {
         postService.deletePostById(id);
         return new ResponseEntity<>("Post Deleted Successfully with id: '" + id + "'", HttpStatus.ACCEPTED);

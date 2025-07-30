@@ -1,4 +1,4 @@
-package com.infernalwhaler.springbootblogrestapi.service;
+package com.infernalwhaler.springbootblogrestapi.service.impl;
 
 import com.infernalwhaler.springbootblogrestapi.controller.PostController;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
@@ -7,6 +7,7 @@ import com.infernalwhaler.springbootblogrestapi.model.Post;
 import com.infernalwhaler.springbootblogrestapi.payload.PostDto;
 import com.infernalwhaler.springbootblogrestapi.payload.PostResponse;
 import com.infernalwhaler.springbootblogrestapi.repository.IPostRepository;
+import com.infernalwhaler.springbootblogrestapi.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -51,7 +51,7 @@ public class PostServiceImpl implements IPostService {
      */
     @Override
     public PostDto createPost(final PostDto postDto) {
-        if (!Objects.isNull(postRepository.findByTitle(postDto.getTitle()))) {
+        if (postRepository.findByTitle(postDto.getTitle()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post with Title: '" + postDto.getTitle() + "' Already Exists");
         }
         final Post post = mapper.mapToPost(postDto);

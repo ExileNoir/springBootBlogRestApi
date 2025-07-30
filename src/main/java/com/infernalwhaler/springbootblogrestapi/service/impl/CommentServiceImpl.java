@@ -1,20 +1,21 @@
-package com.infernalwhaler.springbootblogrestapi.service;
+package com.infernalwhaler.springbootblogrestapi.service.impl;
 
 import com.infernalwhaler.springbootblogrestapi.controller.CommentController;
-import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
 import com.infernalwhaler.springbootblogrestapi.exceptions.BlogApiException;
 import com.infernalwhaler.springbootblogrestapi.exceptions.ResourceNotFoundException;
 import com.infernalwhaler.springbootblogrestapi.mapper.Mapper;
 import com.infernalwhaler.springbootblogrestapi.model.Comment;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
+import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
 import com.infernalwhaler.springbootblogrestapi.repository.ICommentRepository;
 import com.infernalwhaler.springbootblogrestapi.repository.IPostRepository;
+import com.infernalwhaler.springbootblogrestapi.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * Comment Service Implementation
@@ -70,9 +71,15 @@ public class CommentServiceImpl implements ICommentService {
      */
     @Override
     public List<CommentDto> findCommentsByPostId(final Long postId) {
-        return commentRepository.findByPostId(postId).stream()
-                .map(mapper::mapToCommentDto)
-                .collect(Collectors.toList());
+        final Optional<List<Comment>> optComments = commentRepository.findByPostId(postId);
+        if (optComments.isPresent() && !optComments.get().isEmpty()) {
+            return optComments
+                    .get()
+                    .stream()
+                    .map(mapper::mapToCommentDto)
+                    .toList();
+        }
+        throw new ResourceNotFoundException("Comments", "postId", postId);
     }
 
     /**

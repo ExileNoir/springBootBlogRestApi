@@ -3,6 +3,8 @@ package com.infernalwhaler.springbootblogrestapi.repository;
 import com.infernalwhaler.springbootblogrestapi.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * IPost Repository
  *
@@ -13,5 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IPostRepository extends JpaRepository<Post, Long> {
 
-    Post findByTitle(final String postTitle);
+    Optional<Post> findByTitle(final String postTitle);
 }

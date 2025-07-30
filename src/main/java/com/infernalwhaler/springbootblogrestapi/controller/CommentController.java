@@ -1,7 +1,7 @@
 package com.infernalwhaler.springbootblogrestapi.controller;
 
 import com.infernalwhaler.springbootblogrestapi.payload.CommentDto;
-import com.infernalwhaler.springbootblogrestapi.service.CommentServiceImpl;
+import com.infernalwhaler.springbootblogrestapi.service.impl.CommentServiceImpl;
 import com.infernalwhaler.springbootblogrestapi.service.ICommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

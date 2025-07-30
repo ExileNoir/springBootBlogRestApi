@@ -1,9 +1,8 @@
 package com.infernalwhaler.springbootblogrestapi.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Role Object
@@ -13,10 +12,11 @@ import jakarta.persistence.*;
  * @date 11/10/2021
  */
 
-@Setter
-@Getter
+
 @Entity
 @Table(name = "roles")
+@Data
+@NoArgsConstructor
 public class Role {
 
     @Id

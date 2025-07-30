@@ -4,6 +4,12 @@ spring:
     username: root
     password: root
 
+  security:
+    user:
+      name: dev
+      password: dev
+      roles: ADMIN
+
   jpa:
     hibernate:
       ddl-auto: update
