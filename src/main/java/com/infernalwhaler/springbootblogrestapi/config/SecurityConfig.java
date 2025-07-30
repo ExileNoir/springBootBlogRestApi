@@ -1,6 +1,5 @@
 package com.infernalwhaler.springbootblogrestapi.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private  UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -34,9 +33,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
-//                        authorize.anyRequest().authenticated()
-                                authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                                        .anyRequest().authenticated()
+                        authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
         return http.build();
@@ -51,32 +50,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
-
-
-
-
-//    @Bean
-//    UserDetailsService testOnlyUsers(PasswordEncoder passwordEncoder) {
-//        final User.UserBuilder users = User.builder();
-//
-//        final UserDetails nora = users
-//                .username("nora")
-//                .password(passwordEncoder.encode("nora"))
-//                .roles("USER")
-//                .build();
-//
-//        final UserDetails constance = users
-//                .username("constance")
-//                .password(passwordEncoder.encode("constance"))
-//                .roles("ADMIN")
-//                .build();
-//
-//        final UserDetails steven = users
-//                .username("steven")
-//                .password(passwordEncoder.encode("steven"))
-//                .roles("ADMIN")
-//                .build();
-//        return new InMemoryUserDetailsManager(nora, constance, steven);
-//    }
 }

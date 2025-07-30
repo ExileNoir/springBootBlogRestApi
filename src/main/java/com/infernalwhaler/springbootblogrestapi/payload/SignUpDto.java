@@ -1,7 +1,9 @@
 package com.infernalwhaler.springbootblogrestapi.payload;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * SignUp Dto Class
@@ -12,6 +14,8 @@ import lombok.Data;
  */
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignUpDto {
 
     private String name;
