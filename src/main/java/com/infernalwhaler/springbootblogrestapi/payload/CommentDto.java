@@ -23,14 +23,11 @@ import jakarta.validation.constraints.*;
 public class CommentDto {
 
     private Long id;
-
     @NotEmpty(message = "Name should not be null or empty")
     private String name;
-
     @NotEmpty(message = "Email should not be null or empty")
     @Email
     private String email;
-
     @NotEmpty
     @Size(min = 10, message = "Body must be minimum 10 characters")
     private String body;

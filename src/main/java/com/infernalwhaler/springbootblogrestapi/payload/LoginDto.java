@@ -1,9 +1,5 @@
 package com.infernalwhaler.springbootblogrestapi.payload;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * Login Dto Class
  *
@@ -12,12 +8,6 @@ import lombok.NoArgsConstructor;
  * @date 11/10/2021
  */
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class LoginDto {
 
-    private String usernameOrEmail;
-
-    private String password;
+public record LoginDto(String usernameOrEmail, String password) {
 }

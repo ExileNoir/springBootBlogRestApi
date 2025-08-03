@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
     public CustomUserDetailsService(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String usernameOrEmail) throws UsernameNotFoundException {
         final User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found : " + usernameOrEmail));
 
